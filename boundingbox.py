@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import sys
 
 class BoundingBoxUtils:
     @staticmethod
@@ -29,11 +30,23 @@ class BoundingBoxUtils:
                     (int(cy - h / 2) * SCALE, int(cx - w / 2) * SCALE - 8),
                     0,
                     0.5,
-                    (255, 0, 0),
+                    BoundingBoxUtils.__box_color(labels[i]),
                     1
                 )
 
         return img
+    
+    @staticmethod
+    def __box_color(t):
+        t = hash(t) / sys.maxsize
+
+        a = np.array([0.5, 0.5, 0.5], dtype="float32")
+        b = np.array([0.5, 0.5, 0.5], dtype="float32")
+        c = np.array([1.0, 1.0, 1.0], dtype="float32")
+        
+        d = np.array([0.263, 0.416, 0.557], dtype="float32")
+        
+        return a + b * np.cos(6.28318 * (c * t + d))
     
     @staticmethod
     def normalize(bounding_boxes, max_dims):
