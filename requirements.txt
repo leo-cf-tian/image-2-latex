@@ -1,0 +1,10 @@
+numpy
+pandas
+opencv-python
+transformers[torch]
+tokenizers
+datasets
+torch
+torchvision
+matplotlib
+pillow

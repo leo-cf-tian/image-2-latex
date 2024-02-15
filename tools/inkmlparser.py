@@ -80,7 +80,7 @@ class InkMLParser():
 
         return np.array(traces_data)
     
-    def inkml_to_labelled_image(self, input_path):
+    def inkml_to_labelled_image(self, input_path, max_inner_size=268, padding=0):
         '''
         Parses InkML file specified by input path into an image
         '''
@@ -105,13 +105,11 @@ class InkMLParser():
 
         max_dim = max(max_x - min_x, max_y - min_y)
 
-        MAX_INNER_SIZE = 268
-        PADDING = 16
-        MAX_SIZE = MAX_INNER_SIZE + PADDING * 2
+        MAX_SIZE = max_inner_size + padding * 2
 
-        points = (points / max_dim * MAX_INNER_SIZE).astype(int)
+        points = (points / max_dim * max_inner_size).astype(int)
         
-        img = np.zeros((np.max(points[:,1]) + PADDING * 2, np.max(points[:,0]) + PADDING * 2), np.float32)
+        img = np.zeros((np.max(points[:,1]) + padding * 2, np.max(points[:,0]) + padding * 2), np.float32)
 
         bounding_boxes = []
         labels = []
@@ -131,17 +129,17 @@ class InkMLParser():
                 x3, y3 = np.min(stroke[:,1]) - min_x, np.min(stroke[:,0]) - min_y
                 x4, y4 = np.max(stroke[:,1]) - min_x, np.max(stroke[:,0]) - min_y
 
-                (x3, y3, x4, y4) =  np.array((x3, y3, x4, y4) / max_dim * min(MAX_INNER_SIZE, max_x, max_y) + PADDING).astype(int)
+                (x3, y3, x4, y4) =  np.array((x3, y3, x4, y4) / max_dim * min(max_inner_size, max_x, max_y) + padding).astype(int)
 
                 x1, y1 = min(x1, x3), min(y1, y3)
                 x2, y2 = max(x2, x4), max(y2, y4)
 
                 for point1, point2 in zip(stroke, stroke[1:]):
-                    point1 = (np.array((point1[0] - min_y, point1[1] - min_x)) / max_dim * min(MAX_INNER_SIZE, max_x, max_y) + PADDING).astype(int)
-                    point2 = (np.array((point2[0] - min_y, point2[1] - min_x)) / max_dim * min(MAX_INNER_SIZE, max_x, max_y) + PADDING).astype(int)
+                    point1 = (np.array((point1[0] - min_y, point1[1] - min_x)) / max_dim * min(max_inner_size, max_x, max_y) + padding).astype(int)
+                    point2 = (np.array((point2[0] - min_y, point2[1] - min_x)) / max_dim * min(max_inner_size, max_x, max_y) + padding).astype(int)
                     img = cv2.line(img, point1, point2, 1)
             
-            bounding_boxes.append(((x1 + x2) / 2 + x_left, (y1 + y2) / 2 + y_top, x2 - x1 + 25, y2 - y1 + 25))
+            bounding_boxes.append(((x1 + x2) / 2 + x_left, (y1 + y2) / 2 + y_top, x2 - x1, y2 - y1))
             labels.append(symbol["label"])
 
         img = np.pad(img, ((x_left, x_right), (y_top, y_bottom)), mode="constant", constant_values=0)

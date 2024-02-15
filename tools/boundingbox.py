@@ -14,12 +14,14 @@ class BoundingBoxUtils:
             if (normalized):
                 cx, w = cx * img.shape[0] / SCALE, w * img.shape[0] / SCALE
                 cy, h = cy * img.shape[1] / SCALE, h * img.shape[1] / SCALE
+                
+            color = BoundingBoxUtils.__box_color(labels[i])
 
             img = cv2.rectangle(
                 img,
                 (int(cy - h / 2) * SCALE, int(cx - w / 2) * SCALE),
                 (int(cy + h / 2) * SCALE, int(cx + w / 2) * SCALE),
-                (0, 255, 0),
+                color,
                 1
             )
 
@@ -30,7 +32,7 @@ class BoundingBoxUtils:
                     (int(cy - h / 2) * SCALE, int(cx - w / 2) * SCALE - 8),
                     0,
                     0.5,
-                    BoundingBoxUtils.__box_color(labels[i]),
+                    color,
                     1
                 )
 
@@ -46,7 +48,7 @@ class BoundingBoxUtils:
         
         d = np.array([0.263, 0.416, 0.557], dtype="float32")
         
-        return a + b * np.cos(6.28318 * (c * t + d))
+        return (a + b * np.cos(6.28318 * (c * t + d))).tolist()
     
     @staticmethod
     def normalize(bounding_boxes, max_dims):
