@@ -8,4 +8,4 @@ torch
 torchvision
 matplotlib
 pillow
-scikit-learn
+beautifulsoup4
