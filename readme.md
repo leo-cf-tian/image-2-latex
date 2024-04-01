@@ -33,9 +33,9 @@ We use a Byte-Level BPE for encoding. Word-level tokenizers were tested but yiel
 
 ### Pretraining Custom Decoder
 
-For the decoder, we train a custom [[RoBERTa]] model with [[Masked Language Modelling]], using the training data formulas as the corpus.
+For the decoder, we train a custom RoBERTa model with Masked Language Modelling, using the training data formulas as the corpus.
 
-The data was reorganized after MLM training, further investigation will be needed to determine whether this caused [[Data Leakage]].
+The data was reorganized after MLM training, further investigation will be needed to determine whether this caused Data Leakage.
 
 ### Vision Encoder-Decoder Model
 
@@ -69,7 +69,7 @@ Testing the model post-pre-training reveals:
 
 **The model cannot understand images that have significant padding** (FIXED)
 - [x] Add randomized padding to preprocessing
-- If model needs to extract latex from larger images, an [[R-CNN#Faster R-CNN|RPN]] may be required.
+- If model needs to extract latex from larger images, an R-CNN#Faster R-CNN|RPN may be required.
 
 **The model generalizes poorly to images with long equations**
 - The model performs badly 400px in length, but can correctly identify segments
