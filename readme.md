@@ -85,7 +85,7 @@ Testing the model post-pre-training reveals:
 **The model perceives unnecessary spaces in large images**
 - More data augmentation required
 
-**The model does not correctly identify strings of text
+**The model does not correctly identify strings of text**
 - More data required
 
 **The model has a hard time recognizing non-greyscale text**
@@ -101,7 +101,7 @@ Testing the model post-pre-training reveals:
 	- ~~[CvT: Introducing Convolutions to Vision Transformers](https://arxiv.org/pdf/2103.15808.pdf)~~
 		- CvT Convolutional Projection layers lower number of tokens and raise token feature size, making it unfit for typical encoder-decoder architectures
 
-- [ ] **Convolutional Network Backbone**
+- [x] **Convolutional Network Backbone**
 	- Just seems like a common implementation worth a try, could be good for feature extraction
 
 - [ ] **Correction Model**
